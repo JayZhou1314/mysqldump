@@ -1,0 +1,52 @@
+/* 官方颜色配置 */
+.layui-color-red {
+    color: #FF5722;
+}
+
+.layui-color-red:hover {
+    color: #FF5722;
+}
+
+.layui-color-orange {
+    color: #FFB800;
+}
+
+.layui-color-orange:hover {
+    color: #FFB800;
+}
+
+.layui-color-green {
+    color: #009688;
+}
+
+.layui-color-green:hover {
+    color: #009688;
+}
+
+.layui-color-black {
+    color: #2F4056;
+}
+
+.layui-color-black:hover {
+    color: #2F4056;
+}
+
+.layui-color-blue {
+    color: #1E9FFF;
+}
+
+.layui-color-blue:hover {
+    color: #1E9FFF;
+}
+
+.layui-color-gray {
+    color: #666;
+}
+
+.layui-color-gray:hover {
+    color: #666;
+}
+
+.layui-btn-blue {
+    background-color: #005AA7;
+}

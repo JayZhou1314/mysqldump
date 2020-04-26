@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="/common/head"></div>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>恢复记录</legend>
+</fieldset>
+<div class="iframe-main">
+    <table class="layui-hide" id="dataTable" lay-filter="dataTableFilter"></table>
+    <script type="text/html" id="headBar">
+        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="refresh">
+            <i class="layui-icon layui-icon-refresh"></i>刷新
+        </button>
+    </script>
+    <script type="text/html" id="rowBar">
+        <a class="layui-color-green" lay-event="detail"><i class="layui-icon layui-icon-form"></i>详情</a>
+        <a class="layui-color-blue" lay-event="download"><i class="layui-icon layui-icon-download-circle"></i>下载</a>
+        <a class="layui-color-red" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+    </script>
+    <div id="detail" class="module-padding">
+    </div>
+</div>
+
+<div th:replace="/common/js"></div>
+<script>
+    layui.use(['element', 'form', 'table', 'layer'], function () {
+        var element = layui.element
+            , table = layui.table
+            , form = layui.form
+            , layer = layui.layer
+            , $ = layui.jquery;
+
+        // 数据表格
+        var cols = [
+            // {type: 'checkbox', fixed: 'left'}
+            {field: 'ip', title: 'IP', width: 100}
+            , {field: 'port', title: '端口', sort: true, width: 80}
+            , {field: 'userName', title: '用户名', width: 80}
+            // ,{field: 'password', title: '密码'}
+            // ,{field: 'filePath', title: '备份路径'}
+            // ,{field: 'fileName', title: '文件名', width: 150}
+            // , {field: 'uuidName', title: '随机名', width: 150}
+            , {field: 'databaseName', title: '数据库', width: 120}
+            , {
+                field: 'isCreateDb', title: '创建新库', width: 90, templet: function (d) {
+                    return d.isCreateDb == 1 ? '是' : '否';
+                }}
+            , {field: 'command', title: '执行命令'}
+            , {field: 'createTime', title: '创建时间', sort: true, width: 180}
+            , {fixed: 'right', title: '操作', width: 210, align: 'center', toolbar: '#rowBar'}
+        ];
+        table.render({
+            elem: '#dataTable'
+            , method: 'post'
+            , height: 'full-76'
+            , url: '/core/mysqlRecover/list'
+            , toolbar: '#headBar'
+            , page: true
+            , limit: 20
+            , limits: [20, 40, 50, 80, 100]
+            , cols: [cols]
+        });
+
+        var active = {
+            refresh: function () {
+                table.reload('dataTable');
+            },
+            detail: function (obj) {
+                var data = JSON.parse(obj.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r"));
+                var dom = '';
+                for (var key in data) {
+                    for (var i = 0; i < cols.length; i++) {
+                        if (key == cols[i].field) {
+                            dom += '<div class="layui-col-md6">';
+                            dom += '	<div class="layui-form-item">';
+                            dom += '		<label class="layui-form-label">' + cols[i].title + '</label>';
+                            dom += '		<div class="layui-input-inline">';
+                            if (cols[i].templet) {
+                                dom += '			<input type="text" name="' + cols[i].field + '" value="' + cols[i].templet(data) + '" disabled class="layui-input">';
+                            } else {
+                                dom += '			<input type="text" name="' + cols[i].field + '" value="' + data[key] + '" disabled class="layui-input">';
+                            }
+                            dom += '		</div>';
+                            dom += '	</div>';
+                            dom += '</div>';
+                        }
+                    }
+                }
+                $('#detail').empty().append(dom);
+                layer.open({
+                    type: 1,
+                    title: '恢复记录详情',
+                    area: ['700px', '500px'],
+                    content: $('#detail'),
+                    btn: ['关闭'],
+                    yes: function(index, layero) {
+                        layer.closeAll();
+                    }
+                });
+            },
+            download: function (obj) {
+                var data = JSON.parse(obj.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r"));
+                var param = 'filePath=' + data.filePath + '&fileName=' + data.fileName + '.sql';
+                window.location.href = '/downloadFile?' + param;
+            },
+            delete: function (obj) {
+                var data = JSON.parse(obj.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r"));
+                layer.confirm('删除数据后不可恢复，确定删除吗？', {icon: 0, title: '系统提示'}, function () {
+                    layer.load(2, {shade: 0.1});
+                    $.ajax({
+                        url: '/core/mysqlRecover/delete',
+                        type: 'post',
+                        data: {id: data.id, status: 2},
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code == 200) {
+                                layer.msg(res.message, {icon: 1, time: 2000}, function () {
+                                    layer.closeAll();
+                                    active.refresh();
+                                });
+                            } else {
+                                layer.msg(res.message, {icon: 2, time: 2000});
+                            }
+                        },
+                        error: function () {
+                            layer.msg('出错了请稍后再试或联系管理员', {icon: 2, time: 2000});
+                        }
+                    });
+                });
+            },
+        };
+
+        // 监听头工具栏事件
+        table.on('toolbar(dataTableFilter)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id)
+                , data = checkStatus.data;
+            eval('active.' + obj.event + "('" + data + "')");
+        });
+
+        // 监听行工具事件
+        table.on('tool(dataTableFilter)', function (obj) {
+            eval('active.' + obj.event + "('" + JSON.stringify(obj.data) + "')");
+        });
+
+        //监听行单击事件
+        table.on('row(dataTableFilter)', function(obj) {
+            $('.layui-table tr').css({'background-color': ''});
+            $(this).css({'background-color': '#fffa9e'});
+        });
+    });
+</script>
+</body>
+</html>

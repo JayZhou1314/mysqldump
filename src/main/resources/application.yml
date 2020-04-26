@@ -1,0 +1,24 @@
+server:
+  port: 9001
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mysqldump?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  # thymeleaf
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+
+# mybatis plus
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*/*.xml
+  type-aliases-package: cn.tellsea.mysqldump.core.entity

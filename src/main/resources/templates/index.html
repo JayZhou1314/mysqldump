@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="/common/head"></div>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">MySQL备份恢复系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <!--<ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    贤心
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>-->
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">
+                        <i class="layui-icon layui-icon-template-1"></i>
+                        <cite style="margin-left: 10px;">MySQL管理</cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" style="padding-left: 50px;" lay-href="/core/mysqlDump/index">数据备份</a></dd>
+                        <dd><a href="javascript:;" style="padding-left: 50px;" lay-href="/core/mysqlDump/init">备份记录</a></dd>
+                        <dd><a href="javascript:;" style="padding-left: 50px;" lay-href="/core/mysqlRecover/index">数据恢复</a></dd>
+                        <dd><a href="javascript:;" style="padding-left: 50px;" lay-href="/core/mysqlRecover/init">恢复记录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <iframe id="iframe" src="/home" frameborder="0" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; right: 0; bottom: 0;"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        <a href="https://github.com/tellsea" target="_blank">Github 点Star、Star、Star！ >> 更多的，备份指定表、排除指定表等相关配置，我后期陆续更新，敬请期待哟！---- 来自帅气的小海绵</a>
+    </div>
+</div>
+
+<div th:replace="/common/js"></div>
+<script>
+    layui.use('element', function () {
+        var element = layui.element
+            , $ = layui.jquery;
+
+        var active = {
+
+        };
+
+        $('body').on('click', '*[lay-href]', function() {
+            $('#iframe').attr('src', $(this).attr('lay-href'));
+        });
+    });
+</script>
+</body>
+</html>
