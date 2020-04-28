@@ -1,4 +1,4 @@
-package cn.tellsea.mysqldump.core.controller;
+package cn.tellsea.mysqldump.backup.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

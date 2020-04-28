@@ -1,10 +1,10 @@
-package cn.tellsea.mysqldump.core.controller;
+package cn.tellsea.mysqldump.backup.controller;
 
 import cn.tellsea.mysqldump.common.entity.LayuiTable;
 import cn.tellsea.mysqldump.common.entity.ResponseResult;
 import cn.tellsea.mysqldump.common.enums.CrudEnums;
-import cn.tellsea.mysqldump.core.entity.MysqlDump;
-import cn.tellsea.mysqldump.core.service.MysqlDumpService;
+import cn.tellsea.mysqldump.backup.entity.MysqlDump;
+import cn.tellsea.mysqldump.backup.service.MysqlDumpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2020-4-22
  */
 @Controller
-@RequestMapping("/core/mysqlDump")
+@RequestMapping("/backup/mysqlDump")
 public class MysqlDumpController {
 
     @Autowired

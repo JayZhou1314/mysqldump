@@ -1,4 +1,4 @@
-package cn.tellsea.mysqldump.core.entity;
+package cn.tellsea.mysqldump.backup.entity;
 
 import cn.tellsea.mysqldump.common.entity.BaseEntity;
 import com.alibaba.fastjson.annotation.JSONField;

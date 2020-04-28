@@ -1,7 +1,7 @@
-package cn.tellsea.mysqldump.core.service;
+package cn.tellsea.mysqldump.backup.service;
 
 import cn.tellsea.mysqldump.common.entity.LayuiTable;
-import cn.tellsea.mysqldump.core.entity.MysqlRecover;
+import cn.tellsea.mysqldump.backup.entity.MysqlRecover;
 
 /**
  * 恢复 接口层

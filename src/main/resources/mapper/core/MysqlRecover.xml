@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.tellsea.mysqldump.core.mapper.MysqlRecoverMapper">
+<mapper namespace="cn.tellsea.mysqldump.backup.mapper.MysqlRecoverMapper">
 
     <select id="countMysqlRecover" resultType="java.lang.Integer">
         select count(*) from mysql_recover as a
@@ -8,7 +8,7 @@
         where a.`status` = 1
     </select>
 
-    <select id="listMysqlRecover" resultType="cn.tellsea.mysqldump.core.entity.MysqlRecover">
+    <select id="listMysqlRecover" resultType="cn.tellsea.mysqldump.backup.entity.MysqlRecover">
         select a.id, a.dump_id, a.ip, a.`port`, a.user_name, a.`password`,
         a.database_name, a.is_create_db, a.command, a.create_time, a.`status`,
         b.file_name, b.file_path

@@ -1,6 +1,6 @@
-package cn.tellsea.mysqldump.core.mapper;
+package cn.tellsea.mysqldump.backup.mapper;
 
-import cn.tellsea.mysqldump.core.entity.MysqlRecover;
+import cn.tellsea.mysqldump.backup.entity.MysqlRecover;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

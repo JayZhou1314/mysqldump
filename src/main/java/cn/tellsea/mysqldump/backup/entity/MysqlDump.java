@@ -1,4 +1,4 @@
-package cn.tellsea.mysqldump.core.entity;
+package cn.tellsea.mysqldump.backup.entity;
 
 import cn.tellsea.mysqldump.common.entity.BaseEntity;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -59,7 +59,7 @@ public class MysqlDump extends BaseEntity {
     private String defaultCharacterSet;
 
     /**
-     * 其他配置
+     * 参数配置
      */
 
     /**
@@ -94,6 +94,17 @@ public class MysqlDump extends BaseEntity {
      * 是/否：每个数据库创建之前添加drop数据库语句
      */
     private int isAddDropTable;
+
+
+    /**
+     * 是/否：指定备份表
+     */
+    private int isSpecifyTable;
+    /**
+     * 指定备份的表名
+     */
+    private String specifyTable;
+
 
     /**
      * 最终执行的命令

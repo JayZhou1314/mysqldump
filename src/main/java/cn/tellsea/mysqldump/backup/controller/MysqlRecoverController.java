@@ -1,11 +1,11 @@
-package cn.tellsea.mysqldump.core.controller;
+package cn.tellsea.mysqldump.backup.controller;
 
 import cn.tellsea.mysqldump.common.entity.LayuiTable;
 import cn.tellsea.mysqldump.common.entity.ResponseResult;
 import cn.tellsea.mysqldump.common.enums.CrudEnums;
-import cn.tellsea.mysqldump.core.entity.MysqlRecover;
-import cn.tellsea.mysqldump.core.service.MysqlDumpService;
-import cn.tellsea.mysqldump.core.service.MysqlRecoverService;
+import cn.tellsea.mysqldump.backup.entity.MysqlRecover;
+import cn.tellsea.mysqldump.backup.service.MysqlDumpService;
+import cn.tellsea.mysqldump.backup.service.MysqlRecoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2020-4-25
  */
 @Controller
-@RequestMapping("/core/mysqlRecover")
+@RequestMapping("/backup/mysqlRecover")
 public class MysqlRecoverController {
 
     @Autowired

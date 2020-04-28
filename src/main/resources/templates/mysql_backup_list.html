@@ -68,6 +68,17 @@
             , {field: 'isAddDropTable', title: 'Drop表', width: 90, templet: function (d) {
                     return d.isAddDropTable == 1 ? '是' : '否';
                 }}
+            , {field: 'isSpecifyTable', title: '指定表名', width: 90, templet: function (d) {
+                    return d.isSpecifyTable == 1 ? '是' : '否';
+                }}
+            , {field: 'specifyTable', title: '备份范围', width: 120, templet: function (d) {
+                if (d.isSpecifyTable == 0) {
+                    return '所有表';
+                } else {
+                    return d.specifyTable;
+                }
+                }}
+            , {field: 'command', title: '执行命令', width: 200}
             , {field: 'createTime', title: '创建时间', sort: true, width: 180}
             , {fixed: 'right', title: '操作', width: 210, align: 'center', toolbar: '#rowBar'}
         ];
@@ -75,7 +86,7 @@
             elem: '#dataTable'
             , method: 'post'
             , height: 'full-76'
-            , url: '/core/mysqlDump/list'
+            , url: '/backup/mysqlDump/list'
             , toolbar: '#headBar'
             , page: true
             , limit: 20
@@ -130,7 +141,7 @@
                 layer.confirm('删除数据后不可恢复，确定删除吗？', {icon: 0, title: '系统提示'}, function () {
                     layer.load(2, {shade: 0.1});
                     $.ajax({
-                        url: '/core/mysqlDump/delete',
+                        url: '/backup/mysqlDump/delete',
                         type: 'post',
                         data: {id: data.id, status: 2},
                         dataType: 'json',

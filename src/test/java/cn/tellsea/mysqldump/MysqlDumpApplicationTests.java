@@ -1,6 +1,8 @@
 package cn.tellsea.mysqldump;
 
-import cn.tellsea.mysqldump.core.service.MysqlDumpService;
+import cn.tellsea.mysqldump.backup.entity.MysqlDump;
+import cn.tellsea.mysqldump.backup.service.DataBaseService;
+import cn.tellsea.mysqldump.backup.service.MysqlDumpService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +20,8 @@ class MysqlDumpApplicationTests {
 
     @Autowired
     private MysqlDumpService mysqlDumpService;
+    @Autowired
+    private DataBaseService dataBaseService;
 
     @Test
     public void test() {
@@ -39,5 +43,16 @@ class MysqlDumpApplicationTests {
             e.printStackTrace();
         }
         return result.toString();
+    }
+
+    @Test
+    public void test2() {
+        MysqlDump mysqlDump = new MysqlDump();
+        mysqlDump.setIp("127.0.0.1");
+        mysqlDump.setPort(3306);
+        mysqlDump.setUserName("root");
+        mysqlDump.setPassword("123456");
+        mysqlDump.setDatabaseName("sunday_basea");
+        System.out.println(dataBaseService.connection(mysqlDump));
     }
 }

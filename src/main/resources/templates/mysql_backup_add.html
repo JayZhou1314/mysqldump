@@ -7,171 +7,298 @@
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>数据备份</legend>
 </fieldset>
-<form class="layui-form">
-    <div class="layui-row">
-        <div class="layui-col-md4">
-            <div class="layui-form-item">
-                <label class="layui-form-label">IP地址</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="ip" value="127.0.0.1" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
+<div class="iframe-main">
+    <form class="layui-form" lay-filter="dataFormFilter">
+        <div class="layui-row">
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">IP地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="ip" value="127.0.0.1" lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
                 </div>
-                <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">端口</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="port" value="3306" lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style="color: red!important;">必填项</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userName" value="root" lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" value="123456" lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <button type="button" class="layui-btn layui-btn-sm" lay-event="connection">检查连接</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">数据库名称</label>
+                    <div class="layui-input-inline">
+                        <select name="databaseName" lay-verify="required" lay-search lay-filter="dbFilter">
+                            <option value="">选择/搜索</option>
+                        </select>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备份文件名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="fileName" lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">可选项</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">字符编码</label>
+                    <div class="layui-input-inline">
+                        <select name="defaultCharacterSet" lay-verify="required">
+                            <option value="utf8" checked>utf8</option>
+                            <option value="gbk">gbk</option>
+                        </select>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">可选项</div>
+                </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">端口</label>
-                <div class="layui-input-inline">
-                    <input type="number" name="port" value="3306" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
+            <div class="layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">压缩模式</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isCompact" value="1" title="开启" checked>
+                        <input type="radio" name="isCompact" value="0" title="关闭">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">产生更少的输出</div>
                 </div>
-                <div class="layui-form-mid layui-word-aux" style="color: red!important;">必填项</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">注释信息</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isComments" value="1" title="开启">
+                        <input type="radio" name="isComments" value="0" title="关闭" checked>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">文件中的注释信息</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">完整语句</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isCompleteInsert" value="1" title="开启">
+                        <input type="radio" name="isCompleteInsert" value="0" title="关闭" checked>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">使用完整的insert语句(包含列名称)</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">锁定库表</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isLockTables" value="1" title="开启">
+                        <input type="radio" name="isLockTables" value="0" title="关闭" checked>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">备份前，锁定所有数据库表</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">建库语句</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isNoCreateDb" value="1" title="开启">
+                        <input type="radio" name="isNoCreateDb" value="0" title="关闭" checked>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">禁止生成创建数据库语句</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">出错继续</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isForce" value="1" title="开启" checked>
+                        <input type="radio" name="isForce" value="0" title="关闭">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">当出现错误时仍然继续备份操作</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Drop库</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isAddDropDatabase" value="1" title="开启" checked>
+                        <input type="radio" name="isAddDropDatabase" value="0" title="关闭">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">每个数据库创建之前添加drop数据库语句</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Drop表</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isAddDropTable" value="1" title="开启" checked>
+                        <input type="radio" name="isAddDropTable" value="0" title="关闭">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">每个数据表创建之前添加drop数据库语句</div>
+                </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="userName" value="root" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
+            <div class="layui-col-md2">
+                <h2>更多参数配置</h2>
+                <ul style="margin-top: 20px;">
+                    <li><a href="https://www.cnblogs.com/qq78292959/p/3637135.html" target="_blank">Mysqldump参数大全</a>
+                    </li>
+                </ul>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">密码</label>
-                <div class="layui-input-inline">
-                    <input type="password" name="password" value="123456" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
+            <div class="layui-col-md12" style="margin-top: 20px;">
+                <blockquote class="layui-elem-quote">默认备份所有表</blockquote>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">指定备份表</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isSpecifyTable" value="1" lay-filter="isSpecifyTableFilter" title="开启">
+                        <input type="radio" name="isSpecifyTable" value="0" lay-filter="isSpecifyTableFilter" title="关闭" checked>
+                    </div>
                 </div>
-                <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">数据库名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="databaseName" value="test" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux" style="color: red !important;">必填项</div>
+            <div class="layui-col-md12 isSpecifyTable" style="margin-top: 20px; display: none;">
+                <div id="transfer"></div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">备份文件名</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="fileName" value="测试备份文件" lay-verify="required" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
+            <div class="layui-col-md12" style="margin-top: 20px;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <textarea name="remarks" placeholder="请输入" class="layui-textarea"></textarea>
+                    </div>
                 </div>
-                <div class="layui-form-mid layui-word-aux">可选项</div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">字符编码</label>
-                <div class="layui-input-inline">
-                    <select name="defaultCharacterSet" lay-verify="required">
-                        <option value="utf8" checked>utf8</option>
-                        <option value="gbk">gbk</option>
-                    </select>
+            <div class="layui-col-md12" style="margin-top: 20px;">
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="text-align: center;">
+                        <button type="submit" class="layui-btn" lay-submit lay-filter="submitForm">开始备份</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
                 </div>
-                <div class="layui-form-mid layui-word-aux">可选项</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">备份备注</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="remarks" placeholder="请输入"
-                           autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">可选项</div>
             </div>
         </div>
-        <div class="layui-col-md6">
-            <div class="layui-form-item">
-                <label class="layui-form-label">压缩模式</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isCompact" value="1" title="开启" checked>
-                    <input type="radio" name="isCompact" value="0" title="关闭">
-                </div>
-                <div class="layui-form-mid layui-word-aux">产生更少的输出</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">注释信息</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isComments" value="1" title="开启">
-                    <input type="radio" name="isComments" value="0" title="关闭" checked>
-                </div>
-                <div class="layui-form-mid layui-word-aux">文件中的注释信息</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">完整语句</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isCompleteInsert" value="1" title="开启">
-                    <input type="radio" name="isCompleteInsert" value="0" title="关闭" checked>
-                </div>
-                <div class="layui-form-mid layui-word-aux">使用完整的insert语句(包含列名称)</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">锁定库表</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isLockTables" value="1" title="开启">
-                    <input type="radio" name="isLockTables" value="0" title="关闭" checked>
-                </div>
-                <div class="layui-form-mid layui-word-aux">备份前，锁定所有数据库表</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">建库语句</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isNoCreateDb" value="1" title="开启">
-                    <input type="radio" name="isNoCreateDb" value="0" title="关闭" checked>
-                </div>
-                <div class="layui-form-mid layui-word-aux">禁止生成创建数据库语句</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">出错继续</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isForce" value="1" title="开启" checked>
-                    <input type="radio" name="isForce" value="0" title="关闭">
-                </div>
-                <div class="layui-form-mid layui-word-aux">当出现错误时仍然继续备份操作</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">Drop库</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isAddDropDatabase" value="1" title="开启" checked>
-                    <input type="radio" name="isAddDropDatabase" value="0" title="关闭">
-                </div>
-                <div class="layui-form-mid layui-word-aux">每个数据库创建之前添加drop数据库语句</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">Drop表</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="isAddDropTable" value="1" title="开启" checked>
-                    <input type="radio" name="isAddDropTable" value="0" title="关闭">
-                </div>
-                <div class="layui-form-mid layui-word-aux">每个数据表创建之前添加drop数据库语句</div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button type="submit" class="layui-btn" lay-submit lay-filter="submitForm">开始备份</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md2">
-            <h2>更多参数配置</h2>
-            <ul style="margin-top: 20px;">
-                <li><a href="https://www.cnblogs.com/qq78292959/p/3637135.html" target="_blank">Mysqldump参数大全</a></li>
-            </ul>
-        </div>
-    </div>
-</form>
+    </form>
+    <blockquote class="layui-elem-quote">文档：<a href="https://www.cnblogs.com/qq78292959/p/3637135.html" target="_blank">Mysqldump参数大全</a>
+    </blockquote>
+</div>
 
 <div th:replace="/common/js"></div>
 <script>
-    layui.use(['element', 'form'], function () {
+    layui.use(['element', 'form', 'transfer'], function () {
         var element = layui.element
             , form = layui.form
+            , transfer = layui.transfer
             , $ = layui.jquery;
 
-        var active = {};
+        // 选择表
+        transfer.render({
+            elem: '#transfer'
+            , id: 'transfer'
+            , data: []
+            , title: ['当前数据库', '已选择表']
+            , showSearch: true
+            , height: 450
+        });
+
+        var active = {
+            // 检查连接
+            connection: function () {
+                layer.load(1, {shade: 0.1});
+                $.ajax({
+                    url: '/backup/dataBase/connection',
+                    type: 'post',
+                    data: form.val('dataFormFilter'),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.msg('连接成功', {icon: 1, time: 1000}, function () {
+                                var dom = '';
+                                for (var i = 0; i < res.data.length; i++) {
+                                    dom += '<option value="' + res.data[i] + '">' + res.data[i] + '</option>';
+                                }
+                                $("select[name='databaseName']").empty().append('<option value="">选择/搜索</option>').append(dom);
+                                form.render('select');
+                                layer.closeAll();
+                            });
+                        } else {
+                            layer.msg(res.message, {icon: 2, time: 2000}, function () {
+                                layer.closeAll();
+                            });
+                        }
+                    },
+                    error: function () {
+                        layer.msg('出错了请稍后再试或联系管理员', {icon: 2, time: 2000}, function () {
+                            layer.closeAll();
+                        });
+                    }
+                });
+            }
+        };
+
+        // 监听是否指定表
+        form.on('radio(isSpecifyTableFilter)', function (obj) {
+            var value = obj.value;
+            if (value == 0) {
+                $('.isSpecifyTable').css('display', 'none');
+            } else if (value == 1) {
+                $('.isSpecifyTable').css('display', 'block');
+            }
+        });
+
+        // 监听下拉框选择数据库
+        form.on('select(dbFilter)', function (obj) {
+            layer.load(1, {shade: 0.1});
+            $.ajax({
+                url: '/backup/dataBase/getTableList',
+                type: 'post',
+                data: form.val('dataFormFilter'),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 200) {
+                        var list = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            list.push({value: res.data[i], title: res.data[i]});
+                        }
+                        //可以重载所有基础参数
+                        transfer.reload('transfer', {
+                            title: ['当前数据库：' + obj.value, '已选择表'],
+                            data: list
+                        });
+                        layer.closeAll();
+                    } else {
+                        layer.msg('查询表失败', {icon: 2, time: 2000}, function () {
+                            layer.closeAll();
+                        });
+                    }
+                },
+                error: function () {
+                    layer.msg('出错了请稍后再试或联系管理员', {icon: 2, time: 2000}, function () {
+                        layer.closeAll();
+                    });
+                }
+            });
+        });
 
         // 监听提交
         form.on('submit(submitForm)', function (obj) {
+            if (obj.field.isSpecifyTable == 1) {
+                var transferData = transfer.getData('transfer');
+                if (transferData.length == 0) {
+                    layer.msg('请需要选择备份的表', {icon: 2, time: 2000});
+                    return false;
+                }
+                var specifyTable = [];
+                for (var i = 0; i < transferData.length; i++) {
+                    specifyTable.push(transferData[i].value);
+                }
+                obj.field.specifyTable = specifyTable.join(" ");
+            }
             layer.load(1, {shade: 0.1});
             $.ajax({
-                url: '/core/mysqlDump/backup',
+                url: '/backup/mysqlDump/backup',
                 type: 'post',
                 data: obj.field,
                 dataType: 'json',
@@ -193,6 +320,13 @@
                 }
             });
             return false;
+        });
+
+        // 监听lay-event事件
+        $('body').on('click', '*[lay-event]', function () {
+            var othis = $(this)
+                , attrEvent = othis.attr('lay-event');
+            active[attrEvent] && active[attrEvent].call(this, othis);
         });
     });
 </script>

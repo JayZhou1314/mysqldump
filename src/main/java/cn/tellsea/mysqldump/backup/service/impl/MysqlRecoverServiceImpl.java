@@ -1,11 +1,11 @@
-package cn.tellsea.mysqldump.core.service.impl;
+package cn.tellsea.mysqldump.backup.service.impl;
 
 import cn.tellsea.mysqldump.common.consts.MysqlDumpConst;
 import cn.tellsea.mysqldump.common.entity.LayuiTable;
-import cn.tellsea.mysqldump.core.entity.MysqlRecover;
-import cn.tellsea.mysqldump.core.mapper.MysqlRecoverMapper;
-import cn.tellsea.mysqldump.core.service.MysqlRecoverService;
-import cn.tellsea.mysqldump.core.util.MysqlUtils;
+import cn.tellsea.mysqldump.backup.entity.MysqlRecover;
+import cn.tellsea.mysqldump.backup.mapper.MysqlRecoverMapper;
+import cn.tellsea.mysqldump.backup.service.MysqlRecoverService;
+import cn.tellsea.mysqldump.backup.util.MysqlUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class MysqlRecoverServiceImpl extends ServiceImpl<MysqlRecoverMapper, Mys
         arg.append(" -u").append(mysqlRecover.getUserName());
         arg.append(" -p").append(mysqlRecover.getPassword());
         arg.append(" ").append(mysqlRecover.getDatabaseName());
-        arg.append(" < ").append((MysqlDumpConst.SAVE_POSITION + mysqlRecover.getFilePath()).replace("\\", "/"));
+        arg.append(" < ").append((MysqlDumpConst.SAVE_POSITION + mysqlRecover.getFilePath()));
 
         Process process = null;
         try {
@@ -47,7 +47,7 @@ public class MysqlRecoverServiceImpl extends ServiceImpl<MysqlRecoverMapper, Mys
             }
             br.close();
             if (process.waitFor() == 0) {
-                mysqlRecover.setCommand(arg.toString());
+                mysqlRecover.setCommand(arg.toString().replace("\\", "/"));
                 this.getBaseMapper().insert(mysqlRecover);
                 return true;
             }

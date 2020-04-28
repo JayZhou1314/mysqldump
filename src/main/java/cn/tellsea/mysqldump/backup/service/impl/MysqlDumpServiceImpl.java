@@ -1,12 +1,12 @@
-package cn.tellsea.mysqldump.core.service.impl;
+package cn.tellsea.mysqldump.backup.service.impl;
 
+import cn.tellsea.mysqldump.backup.entity.MysqlDump;
+import cn.tellsea.mysqldump.backup.mapper.MysqlDumpMapper;
+import cn.tellsea.mysqldump.backup.service.MysqlDumpService;
+import cn.tellsea.mysqldump.backup.util.MysqlUtils;
 import cn.tellsea.mysqldump.common.consts.MysqlDumpConst;
 import cn.tellsea.mysqldump.common.entity.LayuiTable;
 import cn.tellsea.mysqldump.common.util.FileUtils;
-import cn.tellsea.mysqldump.core.entity.MysqlDump;
-import cn.tellsea.mysqldump.core.mapper.MysqlDumpMapper;
-import cn.tellsea.mysqldump.core.service.MysqlDumpService;
-import cn.tellsea.mysqldump.core.util.MysqlUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,6 +85,9 @@ public class MysqlDumpServiceImpl extends ServiceImpl<MysqlDumpMapper, MysqlDump
             arg.append(" --add-drop-table");
         }
         arg.append(" --databases ").append(mysqlDump.getDatabaseName());
+        if (mysqlDump.getIsSpecifyTable() == 1) {
+            arg.append(" --tables ").append(mysqlDump.getSpecifyTable());
+        }
         // 最终文件保存路径
         String targetPath = mysqlDump.getFilePath() + mysqlDump.getUuidName() + ".sql";
         arg.append(" --result-file=").append(targetPath);
@@ -100,7 +108,7 @@ public class MysqlDumpServiceImpl extends ServiceImpl<MysqlDumpMapper, MysqlDump
             if (process.waitFor() == 0) {
                 // 执行成功后，将相关信息存储到数据库
                 mysqlDump.setFilePath(datePath + mysqlDump.getUuidName() + ".sql");
-                mysqlDump.setCommand(arg.toString());
+                mysqlDump.setCommand(arg.toString().replace("\\", "/"));
                 this.getBaseMapper().insert(mysqlDump);
                 return true;
             }
