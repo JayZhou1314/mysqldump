@@ -13,3 +13,16 @@
 
 ### 预览图
 
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/1.png)
+
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/2.png)
+
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/3.png)
+
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/4.png)
+
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/5.png)
+
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/6.png)
+
+![图片描述](https://github.com/Tellsea/mysqldump/blob/master/doc/images/7.png)
